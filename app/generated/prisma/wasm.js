@@ -120,11 +120,16 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.AdminScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
-  name: 'name'
+  name: 'name',
+  role: 'role',
+  ranking: 'ranking',
+  designation: 'designation',
+  about: 'about',
+  imageUrl: 'imageUrl'
 };
 
 exports.Prisma.PostScalarFieldEnum = {
@@ -139,24 +144,6 @@ exports.Prisma.PostScalarFieldEnum = {
   authorId: 'authorId'
 };
 
-exports.Prisma.MemberScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  ranking: 'ranking',
-  designation: 'designation',
-  about: 'about',
-  imageUrl: 'imageUrl'
-};
-
-exports.Prisma.ImageScalarFieldEnum = {
-  id: 'id',
-  imageUrl: 'imageUrl',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  authorName: 'authorName',
-  category: 'category'
-};
-
 exports.Prisma.EventScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -166,7 +153,18 @@ exports.Prisma.EventScalarFieldEnum = {
   endDate: 'endDate',
   imageUrl: 'imageUrl',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  organizerId: 'organizerId'
+};
+
+exports.Prisma.ImageScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  rank: 'rank',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorName: 'authorName',
+  category: 'category'
 };
 
 exports.Prisma.ContactScalarFieldEnum = {
@@ -192,14 +190,16 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.UserRole = exports.$Enums.UserRole = {
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+};
 
 exports.Prisma.ModelName = {
-  Admin: 'Admin',
+  User: 'User',
   Post: 'Post',
-  Member: 'Member',
-  Image: 'Image',
   Event: 'Event',
+  Image: 'Image',
   Contact: 'Contact'
 };
 

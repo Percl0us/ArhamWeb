@@ -14,12 +14,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String // Store hashed passwords only!
-  name     String?
-  posts    Post[]
+// Prisma schema file
+
+// Enum for user roles
+enum UserRole {
+  ADMIN
+  MEMBER
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String // Store hashed passwords only!
+  name        String?
+  role        UserRole @default(MEMBER) // Default to MEMBER role
+  posts       Post[] // One-to-many relationship with Post
+  events      Event[] // One-to-many relationship with Event
+  ranking     Int? // Optional ranking for members
+  designation String? // Optional designation for members
+  about       String?  @db.Text // Optional about section for members
+  imageUrl    String? // Optional image URL for members
 }
 
 model Post {
@@ -31,26 +45,8 @@ model Post {
   imageUrl    String
   description String   @db.Text
   category    String?
-  author      Admin?   @relation(fields: [authorId], references: [id])
+  author      User?    @relation(fields: [authorId], references: [id])
   authorId    Int?
-}
-
-model Member {
-  id          Int     @id @default(autoincrement())
-  name        String
-  ranking     Int
-  designation String
-  about       String? @db.Text
-  imageUrl    String?
-}
-
-model Image {
-  id         Int      @id @default(autoincrement())
-  imageUrl   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  authorName String?
-  category   String?
 }
 
 model Event {
@@ -63,6 +59,18 @@ model Event {
   imageUrl    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  organizer   User?     @relation(fields: [organizerId], references: [id]) // Event organizer (admin or member)
+  organizerId Int?
+}
+
+model Image {
+  id         Int      @id @default(autoincrement())
+  imageUrl   String
+  rank       Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  authorName String?
+  category   String?
 }
 
 model Contact {
