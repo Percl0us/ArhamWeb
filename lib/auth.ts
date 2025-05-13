@@ -10,15 +10,17 @@ interface custumjwtinterface extends JwtPayload {
 
 export async function isadminauthenticated(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
+  console.log(authHeader);
   if (!authHeader || !authHeader.startsWith("Bearer")) {
     return false;
   }
   const token = authHeader.split(" ")[1];
   try {
     const decoded = verify(token, jwtsecret) as custumjwtinterface;
+    console.log(decoded);
     const user = await prisma.user.findFirst({
       where: {
-        id: decoded.userId,
+        id: parseInt(decoded.userId),
         role: UserRole.ADMIN,
       },
     });
@@ -41,7 +43,7 @@ export async function isuserauthenticated(request: NextRequest) {
     const decoded = verify(token, jwtsecret) as custumjwtinterface;
     const user = await prisma.user.findFirst({
       where: {
-        id: decoded.userId,
+        id: parseInt(decoded.userId),
       },
     });
     return !!user;

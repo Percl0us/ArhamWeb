@@ -19,9 +19,10 @@ export async function POST(request: NextRequest) {
     const token = sign({ userId: user.id, email: user.email }, jwtsecret, {
       expiresIn: "7d",
     });
-    NextResponse.json({ token });
+    return NextResponse.json({ token });
   } catch (error) {
     const e = error as Error;
+    console.log(e.message);
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

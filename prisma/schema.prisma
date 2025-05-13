@@ -34,16 +34,6 @@ model User {
   designation String? // Optional designation for members
   about       String?  @db.Text // Optional about section for members
   imageUrl    String? // Optional image URL for members
-  Member      Member[]
-}
-
-model Member {
-  id      Int    @id @default(autoincrement())
-  name    String
-  ranking Int
-  post    String
-  user    User   @relation(fields: [userid], references: [id])
-  userid  Int
 }
 
 model Post {

@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
         startDate: body.startDate,
         endDate: body.endDate,
         imageUrl: body.imageUrl,
-        organizerId: decoded.userId,
+        organizerId: parseInt(decoded.userId),
       },
     });
     return NextResponse.json(newevent);

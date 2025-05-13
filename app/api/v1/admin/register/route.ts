@@ -5,8 +5,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const existinguser = prisma.user.findUnique({
-      email: body.email,
+    const existinguser = await prisma.user.findUnique({
+      where: {
+        email: body.email,
+      },
     });
     if (existinguser) {
       return NextResponse.json(
@@ -15,7 +17,7 @@ export async function POST(request: NextRequest) {
       );
     }
     const hashedPassword = await bcrypt.hash(body.password, 10);
-    const newuser = await prisma.User.create({
+    const newuser = await prisma.user.create({
       data: {
         email: body.email,
         password: hashedPassword,
@@ -33,6 +35,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(userWithoutPassword, { status: 201 });
   } catch (error) {
     const e = error as Error;
+    console.log(e.message);
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

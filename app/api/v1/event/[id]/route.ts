@@ -51,7 +51,7 @@ export async function PUT(
         startDate: body.startDate,
         endDate: body.endDate,
         imageUrl: body.imageUrl,
-        organizerId: decoded.userId,
+        organizerId: parseInt(decoded.userId),
       },
     });
     return NextResponse.json(updatedevent);
